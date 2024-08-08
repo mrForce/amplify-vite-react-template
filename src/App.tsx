@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
-
+import outputs from '../amplify_outputs.json';
+import { Amplify } from "aws-amplify"
 const client = generateClient<Schema>();
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
   }, []);
 
   function createTodo() {
+    client.queries.createPractice({name: "hello"});
     client.models.Todo.create({ content: window.prompt("Todo content") });
   }
 

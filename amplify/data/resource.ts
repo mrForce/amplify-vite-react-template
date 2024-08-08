@@ -12,6 +12,10 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
+    createPractice: a
+    .query()
+    .arguments({name: a.string()})
+    .returns(a.string())
 });
 
 export type Schema = ClientSchema<typeof schema>;
