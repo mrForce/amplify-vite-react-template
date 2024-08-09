@@ -1,4 +1,5 @@
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
+import {createPractice} from '../functions/hello/resource'
 
 /*== STEP 1 ===============================================================
 The section below creates a Todo database table with a "content" field. Try
@@ -15,6 +16,7 @@ const schema = a.schema({
     .query()
     .arguments({name: a.string()})
     .returns(a.string())
+    .handler(a.handler.function(createPractice))
 }).authorization(allow => [
   allow.authenticated('oidc')
 ]);
