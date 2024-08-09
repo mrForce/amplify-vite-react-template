@@ -10,24 +10,27 @@ const schema = a.schema({
   Todo: a
     .model({
       content: a.string(),
-    })
-    .authorization((allow) => [allow.publicApiKey()]),
+    }),
     createPractice: a
     .query()
     .arguments({name: a.string()})
     .returns(a.string())
-});
+}).authorization(allow => [
+  allow.authenticated('oidc')
+]);
 
 export type Schema = ClientSchema<typeof schema>;
 
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "apiKey",
-    // API Key is used for a.allow.public() rules
-    apiKeyAuthorizationMode: {
-      expiresInDays: 30,
-    },
+    defaultAuthorizationMode: "oidc",
+    oidcAuthorizationMode: {
+      oidcProviderName: "Cognito",
+      oidcIssuerUrl: "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_So1peSjk6",
+      tokenExpireFromIssueInSeconds: 86400,
+      tokenExpiryFromAuthInSeconds: 86400
+    }
   },
 });
 
